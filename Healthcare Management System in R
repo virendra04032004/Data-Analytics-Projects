@@ -1,0 +1,72 @@
+# Healthcare Management System in R
+
+# Declare global choice variable
+choice <- 0
+
+# Function to add a new patient
+add_patient <- function(name, age, condition) {
+  patient <- data.frame(Name = name, Age = age, Condition = condition)
+  patients <<- rbind(patients, patient)
+  cat("Patient added successfully.\n")
+}
+
+# Function to display all patients
+display_patients <- function() {
+  if (nrow(patients) == 0) {
+    cat("No patients in the system.\n")
+  } else {
+    print(patients)
+  }
+}
+
+# Function to search for a patient by name
+search_patient <- function(name) {
+  result <- subset(patients, Name == name)
+  if (nrow(result) == 0) {
+    cat("Patient not found.\n")
+  } else {
+    print(result)
+  }
+}
+
+# Main menu
+main_menu <- function() {
+  repeat {
+    cat("Healthcare Management System\n")
+    cat("1. Add Patient\n")
+    cat("2. Display Patients\n")
+    cat("3. Search Patient\n")
+    cat("4. Exit\n")
+    
+    choice <<- as.integer(readline("Enter your choice: "))
+    
+    switch(choice,
+           "1" = {
+             name <- readline("Enter patient name: ")
+             age <- as.integer(readline("Enter patient age: "))
+             condition <- readline("Enter patient condition: ")
+             add_patient(name, age, condition)
+           },
+           "2" = {
+             display_patients()
+           },
+           "3" = {
+             name <- readline("Enter patient name to search: ")
+             search_patient(name)
+           },
+           "4" = {
+             cat("Exiting...\n")
+             break
+           },
+           {
+             cat("Invalid choice. Please try again.\n")
+           }
+    )
+  }
+}
+
+# Initialize an empty data frame to store patients
+patients <- data.frame(Name = character(), Age = integer(), Condition = character(), stringsAsFactors = FALSE)
+
+# Run the main menu
+main_menu()
